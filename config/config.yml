@@ -1,0 +1,6 @@
+app:
+  base_url: https://api.trello.com/1
+  query_auth:
+    key: key
+    token: token
+    
