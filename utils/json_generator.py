@@ -1,4 +1,5 @@
-class JSONGenerator():
+class JSONGenerator:
+
     @staticmethod
     def get_json(tuple):
         """ Gets a dictionary representation of given tuple
