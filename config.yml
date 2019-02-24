@@ -1,6 +1,6 @@
 app:
-  base_url: https://api.trello.com/1
+  base_url: https://trello.com/1
   query_auth:
-    key: f288cdaa8e51a96b9626961dbe5cef52
-    token: c0504935f3b990ca536ec2b615b29f6ce4d07f48f685dae831006ee7445c6a90
+    key: d78531eb723e3b6e5bef8446cd9060b7
+    token: 2d5eae4f7902ddcfcf402293031352061ebed379cc34459a1f172f871098de58
     
