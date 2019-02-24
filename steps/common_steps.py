@@ -20,7 +20,8 @@ def send_put_request(context, method, endpoint):
 
     if getattr(context, "table", None):
         for row in context.table:
-            context.query_params += ({row["key"]: row["value"]}, )
+            value = context_util.replace_variables(row["value"], context)
+            context.query_params += ({row["key"]: value}, )
 
     switcher = {
         "POST": request_util.post_request(url, context.query_params),
