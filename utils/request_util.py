@@ -21,6 +21,9 @@ def delete_request(url, params_as_tuple):
 	payload = JSONGenerator.get_json(params_as_tuple)
 	return requests.delete(url, params=payload)
 
+def patch_request(url, params_as_tuple):
+	payload = JSONGenerator.get_json(params_as_tuple)
+	return requests.patch(url, params=payload)
 
 # SAMPLES
 # def test():
