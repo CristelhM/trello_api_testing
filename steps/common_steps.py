@@ -23,10 +23,14 @@ def step_impl(context, field, variable):
 @then(u'the response body should be')
 def response_body_should_be(context):
     response = json.loads(context.response.content)
-    for row in context.table:
-        actual = response[row["key"]]
-        expected = context_util.replace_variables(row["value"], context)
-        expect(expected).to_equal(actual)
+    for key, value in context.table:
+        if isinstance(response, dict) and key in response:
+            actual = response[key]
+            expected = context_util.replace_variables(value, context)
+            expect(expected).to_equal(actual)
+        else:
+            exist = exist_value_in_json_array(response, key, value)
+            expect(exist).to_be_truthy()
 
 
 @step(u'I send a {method} request to "{endpoint}"')
@@ -46,5 +50,11 @@ def send_put_request(context, method, endpoint):
         "DELETE": request_util.delete_request(url, context.query_params),
         "PATCH": request_util.patch_request(url, context.query_params)
     }
-
     context.response = switcher.get(method, "Invalid method.")
+
+
+def exist_value_in_json_array(array, key, value):
+    for item in array:
+        if item[key] == value:
+            return True
+    return False

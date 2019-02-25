@@ -5,14 +5,8 @@ import json
 @given(u'I have the board "{boardName}" with id as "{variable}"')
 def get_board_id(context, boardName, variable):
     url = context.base_url + "/members/me/boards"
+    print("URL:", url)
     response = json.loads(request_util.get_request(url, context.query_params).content)
     for board in response:
         if board["name"] == boardName:
             setattr(context, variable, board["id"])
-
-
-@given(u'I set query params as')
-def step_impl(context):
-    raise NotImplementedError(u'STEP: Given I set query params as')
-
-    
