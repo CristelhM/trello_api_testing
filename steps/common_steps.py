@@ -1,6 +1,6 @@
 from compare import expect
 from utils import context_util, request_util
-
+import json
 
 @then(u'the status code should be "{status_code:d}"')
 def status_code_should_be(context, status_code):
@@ -13,6 +13,15 @@ def response_body_should_be(context, responseBody):
     expect(context.response.text).to_equal(responseBody)
 
 
+@then(u'the response body should be')
+def response_body_should_be(context):
+    response = json.loads(context.response.content)
+    for row in context.table:
+        actual = response[row["key"]]
+        expected = context_util.replace_variables(row["value"], context)
+        expect(actual).to_equal(expected)
+
+
 @step(u'I send a {method} request to "{endpoint}"')
 def send_put_request(context, method, endpoint):
     endpoint = context_util.replace_variables(endpoint, context)
@@ -20,7 +29,8 @@ def send_put_request(context, method, endpoint):
 
     if getattr(context, "table", None):
         for row in context.table:
-            context.query_params += ({row["key"]: row["value"]}, )
+            value = context_util.replace_variables(row["value"], context)
+            context.query_params += ({row["key"]: value}, )
 
     switcher = {
         "POST": request_util.post_request(url, context.query_params),
