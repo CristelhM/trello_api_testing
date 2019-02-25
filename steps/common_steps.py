@@ -8,7 +8,7 @@ def status_code_should_be(context, status_code):
     expect(status_code).to_equal(context.response.status_code)
 
 
-@then(u'the response body should be "{responseBody}"')
+@then(u'the response body should be "{response_body}"')
 def response_body_should_be(context, response_body):
     response_body = context_util.replace_variables(response_body, context)
     expect(response_body).to_equal(context.response.text)
@@ -23,10 +23,15 @@ def step_impl(context, field, variable):
 @then(u'the response body should be')
 def response_body_should_be(context):
     response = json.loads(context.response.content)
-    for row in context.table:
-        actual = response[row["key"]]
-        expected = context_util.replace_variables(row["value"], context)
-        expect(expected).to_equal(actual)
+    print(response)
+    for key, value in context.table:
+        if isinstance(response, dict) and key in response:
+            actual = response[key]
+            expected = context_util.replace_variables(value, context)
+            expect(expected).to_equal(actual)
+        else:
+            exist = exist_value_in_json_array(response, key, value)
+            expect(exist).to_be_truthy()
 
 
 @step(u'I send a {method} request to "{endpoint}"')
@@ -48,3 +53,10 @@ def send_put_request(context, method, endpoint):
     }
 
     context.response = switcher.get(method, "Invalid method.")
+
+
+def exist_value_in_json_array(array, key, value):
+    for item in array:
+        if item[key] == value:
+            return True
+    return False
