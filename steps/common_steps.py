@@ -1,6 +1,6 @@
 from compare import expect
 from utils import context_util, request_util
-
+import json
 
 @then(u'the status code should be "{status_code:d}"')
 def status_code_should_be(context, status_code):
@@ -11,6 +11,15 @@ def status_code_should_be(context, status_code):
 def response_body_should_be(context, responseBody):
     responseBody = context_util.replace_variables(responseBody, context)
     expect(context.response.text).to_equal(responseBody)
+
+
+@then(u'the response body should be')
+def response_body_should_be(context):
+    response = json.loads(context.response.content)
+    for row in context.table:
+        actual = response[row["key"]]
+        expected = context_util.replace_variables(row["value"], context)
+        expect(actual).to_equal(expected)
 
 
 @step(u'I send a {method} request to "{endpoint}"')
