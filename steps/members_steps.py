@@ -3,7 +3,7 @@ import json
 from compare import expect
 import collections
 
-@given(u'I send a POST request to "{endpoint}"')
+@given(u'I send POST request to "{endpoint}"')
 def step_impl(context, endpoint):
 
     query_params = ({"key": context.key}, {"token": context.token})
@@ -37,8 +37,8 @@ def step_impl(context,endpoint):
     idRecord = data['id']
     context.recordId = idRecord
 
-@when(u'I send a GET request to "{endpoint}"')
-@then(u'I send a GET request to "{endpoint}"')
+@when(u'I send GET request to "{endpoint}"')
+@then(u'I send GET request to "{endpoint}"')
 def step_impl(context,endpoint):
     query_params = ({"key": context.key}, {"token": context.token})
 

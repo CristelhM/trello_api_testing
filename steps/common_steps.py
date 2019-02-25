@@ -34,10 +34,9 @@ def response_body_should_be(context):
 
 
 @step(u'I send a {method} request to "{endpoint}"')
-def send_put_request(context, method, endpoint):
+def send_request(context, method, endpoint):
     endpoint = context_util.replace_variables(endpoint, context)
     url = context.base_url + endpoint
-
     if getattr(context, "table", None):
         for key, value in context.table:
             value = context_util.replace_variables(value, context)
