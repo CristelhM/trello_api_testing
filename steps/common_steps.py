@@ -9,30 +9,17 @@ def status_code_should_be(context, status_code):
 
 @then(u'the response body should be "{responseBody}"')
 def response_body_should_be(context, responseBody):
-    expected = context_util.replace_variables(responseBody, context)
-    expect(context.response.text).to_equal(expected)
+    responseBody = context_util.replace_variables(responseBody, context)
+    expect(context.response.text).to_equal(responseBody)
 
 
 @then(u'the response body should be')
 def response_body_should_be(context):
     response = json.loads(context.response.content)
-    #print(response)
     for row in context.table:
-        if isinstance(response, dict) and row["key"] in response:
-            actual = response[row["key"]]
-            expected = context_util.replace_variables(row["value"], context)
-            expect(actual).to_equal(expected)
-        else:
-            for index in range(len(response)):
-                element = response.pop(index)
-                print("ROW:", row)
-                actual = element[row["key"]]
-                expected = context_util.replace_variables(row["value"], context)
-                print("ACTUAL =>", actual)
-                print("EXPECTED =>", expected)
-                
-                expect(actual).to_equal(expected)
-                break
+        actual = response[row["key"]]
+        expected = context_util.replace_variables(row["value"], context)
+        expect(actual).to_equal(expected)
 
 
 @step(u'I send a {method} request to "{endpoint}"')
@@ -42,7 +29,8 @@ def send_put_request(context, method, endpoint):
 
     if getattr(context, "table", None):
         for row in context.table:
-            context.query_params += ({row["key"]: row["value"]}, )
+            value = context_util.replace_variables(row["value"], context)
+            context.query_params += ({row["key"]: value}, )
 
     switcher = {
         "POST": request_util.post_request(url, context.query_params),
