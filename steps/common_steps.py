@@ -8,7 +8,7 @@ def status_code_should_be(context, status_code):
     expect(status_code).to_equal(context.response.status_code)
 
 
-@then(u'the response body should be "{responseBody}"')
+@then(u'the response body should be "{response_body}"')
 def response_body_should_be(context, response_body):
     response_body = context_util.replace_variables(response_body, context)
     expect(response_body).to_equal(context.response.text)
