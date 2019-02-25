@@ -23,7 +23,6 @@ def step_impl(context, field, variable):
 @then(u'the response body should be')
 def response_body_should_be(context):
     response = json.loads(context.response.content)
-    print(response)
     for key, value in context.table:
         if isinstance(response, dict) and key in response:
             actual = response[key]
@@ -51,7 +50,6 @@ def send_put_request(context, method, endpoint):
         "DELETE": request_util.delete_request(url, context.query_params),
         "PATCH": request_util.patch_request(url, context.query_params)
     }
-
     context.response = switcher.get(method, "Invalid method.")
 
 
