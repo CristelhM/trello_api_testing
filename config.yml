@@ -1,7 +1,7 @@
 app:
   base_url: https://trello.com/1
   query_auth:
-    key: 32a25af60640cb86202f1d3d013772bc
-    token: 6c3726e27775bd597028cf390a48ce02c2463a098900f71ab4304a416682eac5
+    key: d78531eb723e3b6e5bef8446cd9060b7
+    token: 2d5eae4f7902ddcfcf402293031352061ebed379cc34459a1f172f871098de58
 
 
