@@ -32,6 +32,6 @@ Scenario: Verify a label can't be created for an inexistent board
     |key    |value    |
     |name   |label001 |
     |idBoard|err0r1d  |
-    |color  |brown    |
+    |color  |blue     |
   Then the status code should be "400"
   And the response body should be "Invalid id"
