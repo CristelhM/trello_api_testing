@@ -35,7 +35,7 @@ Scenario: LIST_CREATE_02 - Verify List can be created with short list's name
       |idBoard  |{boardId}      |
 
 @functional @cristelh
-Scenario: LIST_CREATE_03 - Verify List can be created with short list's name
+Scenario: LIST_CREATE_03 - Verify List can be created with duplicated list's name
    Given I have the board "Test" with id as "boardId"
    And I send a POST request to "/lists"
      |key    |value                   |
