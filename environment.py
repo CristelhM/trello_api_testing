@@ -11,5 +11,3 @@ def before_all(context):
     context.key = config_data['app']['query_auth']['key']
     context.query_params = ({"key": context.key}, {"token": context.token})
 
-
-
