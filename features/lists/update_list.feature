@@ -23,6 +23,12 @@ Scenario: LIST_PUT_01 - Verify List name can be updated
       |id       |{listId}       |
       |name     |Updated        |
       |idBoard  |{boardId}      |
+    And I send a GET request to "/lists/{listId}"
+    And the response body should be
+      |key      |value          |
+      |id       |{listId}       |
+      |name     |Updated        |
+      |idBoard  |{boardId}      |
 
 @acceptance @cristelh
 Scenario: LIST_PUT_02 - Verify List name can be updated and one query param is sent
@@ -43,12 +49,20 @@ Scenario: LIST_PUT_02 - Verify List name can be updated and one query param is s
       |id       |{listId}       |
       |name     |Updated        |
       |idBoard  |{boardId}      |
+    And I send a GET request to "/lists/{listId}"
+    And the response body should be
+      |key      |value          |
+      |id       |{listId}       |
+      |name     |Updated        |
+      |idBoard  |{boardId}      |
 
 @functional @cristelh
 Scenario: LIST_PUT_03 - Verify List can not be updated with invalid list's id
    Given I have the board "Test" with id as "boardId"
    When I send a PUT request to "/lists/invalidID"
    Then the status code should be "400"
+    And I send a GET request to "/lists/invalidID"
+    And the response body should be "invalid id"
 
 @functional @cristelh
 Scenario: LIST_PUT_04 - Verify List can be updated to be archived
@@ -65,6 +79,12 @@ Scenario: LIST_PUT_04 - Verify List can be updated to be archived
       |name |Updated     |
       |closed|true       |
    Then the response body should be
+      |key      |value          |
+      |id       |{listId}       |
+      |name     |Updated        |
+      |idBoard  |{boardId}      |
+    And I send a GET request to "/lists/{listId}"
+    And the response body should be
       |key      |value          |
       |id       |{listId}       |
       |name     |Updated        |
@@ -92,3 +112,9 @@ Scenario: LIST_PUT_05 - Verify Archived List can be updated when it is archived
       |key      |value          |
       |id       |{listId}       |
       |name     |UpdatedName    |
+    And I send a GET request to "/lists/{listId}"
+    And the response body should be
+      |key      |value          |
+      |id       |{listId}       |
+      |name     |UpdatedName        |
+      |idBoard  |{boardId}      |

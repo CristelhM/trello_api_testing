@@ -18,6 +18,12 @@ Scenario: LIST_CREATE_01 - Verify List can be created with valid list's name
       |id       |{listId}       |
       |name     |ListNameTest   |
       |idBoard  |{boardId}      |
+    And I send a GET request to "/lists/{listId}"
+    And the response body should be
+      |key      |value          |
+      |id       |{listId}       |
+      |name     |ListNameTest   |
+      |idBoard  |{boardId}      |
 
 @functional @cristelh
 Scenario: LIST_CREATE_02 - Verify List can be created with short list's name
@@ -28,6 +34,12 @@ Scenario: LIST_CREATE_02 - Verify List can be created with short list's name
      |idBoard|{boardId}       |
    Then the status code should be "200"
     And I save the "id" of response as "listId"
+    And the response body should be
+      |key      |value          |
+      |id       |{listId}       |
+      |name     |li             |
+      |idBoard  |{boardId}      |
+    And I send a GET request to "/lists/{listId}"
     And the response body should be
       |key      |value          |
       |id       |{listId}       |
@@ -52,6 +64,12 @@ Scenario: LIST_CREATE_03 - Verify List can be created with duplicated list's nam
       |id       |{listId}       |
       |name     |duplicatedName |
       |idBoard  |{boardId}      |
+    And I send a GET request to "/lists/{listId}"
+    And the response body should be
+      |key      |value          |
+      |id       |{listId}       |
+      |name     |duplicatedName |
+      |idBoard  |{boardId}      |
 
 @functional @cristelh
 Scenario: LIST_CREATE_04 - Verify List can be created with common special characters
@@ -67,6 +85,12 @@ Scenario: LIST_CREATE_04 - Verify List can be created with common special charac
       |id       |{listId}       |
       |name     |_)(*&^%$#@"    |
       |idBoard  |{boardId}      |
+    And I send a GET request to "/lists/{listId}"
+    And the response body should be
+      |key      |value          |
+      |id       |{listId}       |
+      |name     |_)(*&^%$#@"    |
+      |idBoard  |{boardId}      |
 
 @functional @cristelh
 Scenario: LIST_CREATE_05 - Verify List can be created with non-common special characters
@@ -77,11 +101,17 @@ Scenario: LIST_CREATE_05 - Verify List can be created with non-common special ch
      |idBoard|{boardId}                                                                |
    Then the status code should be "200"
    And I save the "id" of response as "listId"
-    And the response body should be
+   And the response body should be
       |key      |value                                                                   |
       |id       |{listId}                                                                |
       |name     |áàäâãåąæāªèėêęéëēìïíīîįôöòóõøœœºüūùûúčçćñń华☻♥♦♣♠•◘○◙♂♀♪♫☼►◄‼¶§▬↨↑↓"|
       |idBoard  |{boardId}                                                               |
+   And I send a GET request to "/lists/{listId}"
+   And the response body should be
+      |key      |value          |
+      |id       |{listId}       |
+      |name     |áàäâãåąæāªèėêęéëēìïíīîįôöòóõøœœºüūùûúčçćñń华☻♥♦♣♠•◘○◙♂♀♪♫☼►◄‼¶§▬↨↑↓" |
+      |idBoard  |{boardId}      |
 
 @functional @cristelh
 Scenario: LIST_CREATE_06 - Verify List can be created with long name
@@ -97,7 +127,12 @@ Scenario: LIST_CREATE_06 - Verify List can be created with long name
       |id       |{listId}       |
       |name     |Long nameeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee123444444444444444444444444444444444444444444444444444444444444444    |
       |idBoard  |{boardId}      |
-
+    And I send a GET request to "/lists/{listId}"
+    And the response body should be
+      |key      |value          |
+      |id       |{listId}       |
+      |name     |Long nameeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee123444444444444444444444444444444444444444444444444444444444444444 |
+      |idBoard  |{boardId}      |
 
 @functional @cristelh
 Scenario: LIST_CREATE_05 - Verify List cannot be created when invalid board id is sent
@@ -106,3 +141,5 @@ Scenario: LIST_CREATE_05 - Verify List cannot be created when invalid board id i
      |name   |lists123    |
      |idBoard|invalidId   |
    Then the status code should be "400"
+    And I send a GET request to "/lists/{invalidId}"
+    And the response body should be "invalid id"
